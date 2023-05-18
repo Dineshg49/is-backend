@@ -12,6 +12,7 @@ router.post('/patent', async (req, res) => {
     Year: req.body.Year,
     Patent_Number: req.body.Patent_Number,
     Faculty: req.body.Faculty,
+    Status : req.body.Status
   })
   newPatent.save()
     .then(patent => {

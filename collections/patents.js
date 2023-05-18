@@ -8,6 +8,9 @@ const patentSchema = new mongoose.Schema({
   Center_Name: {
     type: String,
   },
+  Status: {
+    type: String,
+  },
   Year: {
     type: Number,
   },
