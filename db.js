@@ -16,7 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost/myDatabase', { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://Developer:Bahubhashak@bahubhashaak-project.ascwu.mongodb.net/TTO-Dev?retryWrites=true&w=majority`, { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
