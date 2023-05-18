@@ -1,12 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { createFaculty, readFaculty, updateFaculty, deleteFaculty, readFaculties } = require('../collections/faculties');
+
+const Faculty = require('../collections/faculties')
+// const { createFaculty, readFaculty, updateFaculty, deleteFaculty, readFaculties } = require('../collections/faculties');
 
 // Create a faculty
 router.post('/faculty', async (req, res) => {
   try {
-    const result = await createFaculty(req.body);
-    res.status(201).send(result);
+    const newFaculty = new Faculty({
+      Name: req.body.Name,
+      Designation: req.body.Designation,
+      Email: req.body.Email,
+      Department: req.body.Department,
+    })
+    newFaculty.save()
+      .then(faculty => {
+        res.status(200).json(faculty);
+        // res.send(faculty);
+      })
+      .catch(err => {
+        res.status(400).send(err);
+      });
+    // res.status(201).send(result);
   } catch (error) {
     console.error(error);
     res.status(500).send(error.message);
@@ -16,7 +31,8 @@ router.post('/faculty', async (req, res) => {
 // Get a faculty by ID
 router.get('/faculty/:id', async (req, res) => {
   try {
-    const result = await readFaculty(req.params.id);
+    const { id } = req.params;
+    const result = await Faculty.findById(id);
     if (result) {
       res.send(result);
     } else {
@@ -29,24 +45,13 @@ router.get('/faculty/:id', async (req, res) => {
 });
 
 // Update a faculty by ID
-router.patch('/faculty/:id', async (req, res) => {
-  try {
-    const result = await updateFaculty(req.params.id, req.body);
-    if (result) {
-      res.send(result);
-    } else {
-      res.sendStatus(404);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send(error.message);
-  }
-});
+
 
 // Delete a faculty by ID
 router.delete('/faculty/:id', async (req, res) => {
   try {
-    const result = await deleteFaculty(req.params.id);
+    const { id } = req.params;
+    const result = await Faculty.findByIdAndDelete(id);
     if (result) {
       res.send(result);
     } else {
@@ -61,7 +66,7 @@ router.delete('/faculty/:id', async (req, res) => {
 // Get all faculties
 router.get('/faculties', async (req, res) => {
   try {
-    const result = await readFaculties();
+    const result = await Faculty.find();
     res.send(result);
   } catch (error) {
     console.error(error);

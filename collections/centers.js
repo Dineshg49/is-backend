@@ -5,19 +5,19 @@ const Photo = require('./photos')
 const centerSchema = new mongoose.Schema({
     Name: {
         type: String,
-        required: true
+        // required: true
     },
     Type: {
         type: String,
-        required: true
+        // required: truse
     },
     Est_Year: {
         type: Number,
-        required: true
+        // required: true
     },
     Location: {
         type: String,
-        required: true
+        // required: true
     },
     Thumbnail: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,123 +25,120 @@ const centerSchema = new mongoose.Schema({
     }
 });
 
-const Center = db.model('Center', centerSchema);
+module.exports = Center = mongoose.model("Centers", centerSchema);
 
-async function createCenter(Name, Type, Est_Year, Location, photoFilename, photoContentType, photoData) {
-    const session = await mongoose.startSession();
-    session.startTransaction();
+// const Center = mongoose.model('Center', centerSchema);
 
-    try {
-        const photo = new Photo({
-            filename: photoFilename,
-            contentType: photoContentType,
-            data: photoData
-        });
+// async function createCenter(Name, Type, Est_Year, Location, photoFilename, photoContentType, photoData) {
+   
 
-        const savedPhoto = await photo.save({ session });
+//     try {
+//         // const photo = new Photo({
+//         //     filename: photoFilename,
+//         //     contentType: photoContentType,
+//         //     data: photoData
+//         // });
 
-        const center = new Center({
-            Name,
-            Type,
-            Est_Year,
-            Location,
-            Thumbnail: savedPhoto._id
-        });
+//         // const savedPhoto = await photo.save({ session });
 
-        const savedCenter = await center.save({ session });
+//         const center = new Center({
+//             Name : Name,
+//             Type : Type,
+//             // Est_Year,
+//             // Location,
+//             // Thumbnail: savedPhoto._id
+//         });
 
-        await session.commitTransaction();
-        session.endSession();
+//         const savedCenter = await center.save();
+//         return savedCenter;
+//     } catch (error) {
+//         await session.abortTransaction();
+//         session.endSession();
+//         throw error;
+//     }
+// }
 
-        return savedCenter;
-    } catch (error) {
-        await session.abortTransaction();
-        session.endSession();
-        throw error;
-    }
-}
+// async function readCenters() {
+//     try {
+//         const centers = await Center.find().populate('Thumbnail');
+//         const centersData = centers.map(center => {
+//           const photoData = center.Thumbnail ? center.Thumbnail.data : null;
+//           return { ...center.toObject(), photoData };
+//         });
+//         return centersData;
+//       } catch (error) {
+//         throw error;
+//       }
+// }
 
-async function readCenters() {write 
-    try {
-        const centers = await Center.find().populate('Thumbnail');
-        const centersData = centers.map(center => {
-          const photoData = center.Thumbnail ? center.Thumbnail.data : null;
-          return { ...center.toObject(), photoData };
-        });
-        return centersData;
-      } catch (error) {
-        throw error;
-      }
-}
+// async function readCenter(id) {
+//     try {
+//         const center = await Center.findById(id).populate('Thumbnail');
+//         const photoData = center.Thumbnail ? center.Thumbnail.data : null;
+//         return { ...center.toObject(), photoData };
+//       } catch (error) {
+//         throw error;
+//       }
+// }
 
-async function readCenter(id) {
-    try {
-        const center = await Center.findById(id).populate('Thumbnail');
-        const photoData = center.Thumbnail ? center.Thumbnail.data : null;
-        return { ...center.toObject(), photoData };
-      } catch (error) {
-        throw error;
-      }
-}
-
-async function updateCenter(id, updates) {
-    const session = await mongoose.startSession();
-    session.startTransaction();
+// async function updateCenter(id, updates) {
+//     const session = await mongoose.startSession();
+//     session.startTransaction();
   
-    try {
-      const center = await Center.findById(id).populate('Thumbnail').session(session);
-      if (!center) {
-        throw new Error('Center not found');
-      }
+//     try {
+//       const center = await Center.findById(id).populate('Thumbnail').session(session);
+//       if (!center) {
+//         throw new Error('Center not found');
+//       }
   
-      if (updates.photoFilename && updates.photoContentType && updates.photoData) {
-        const newPhoto = new Photo({
-          filename: updates.photoFilename,
-          contentType: updates.photoContentType,
-          data: updates.photoData
-        });
+//       if (updates.photoFilename && updates.photoContentType && updates.photoData) {
+//         const newPhoto = new Photo({
+//           filename: updates.photoFilename,
+//           contentType: updates.photoContentType,
+//           data: updates.photoData
+//         });
   
-        const savedPhoto = await newPhoto.save({ session });
-        center.Thumbnail = savedPhoto._id;
-      }
+//         const savedPhoto = await newPhoto.save({ session });
+//         center.Thumbnail = savedPhoto._id;
+//       }
       
-      if (updates.Name) {
-        center.Name = updates.Name;
-      }
-      if (updates.Type) {
-        center.Type = updates.Type;
-      }
-      if (updates.Est_Year) {
-        center.Est_Year = updates.Est_Year;
-      }
-      if (updates.Location) {
-        center.Location = updates.Location;
-      }
+//       if (updates.Name) {
+//         center.Name = updates.Name;
+//       }
+//       if (updates.Type) {
+//         center.Type = updates.Type;
+//       }
+//       if (updates.Est_Year) {
+//         center.Est_Year = updates.Est_Year;
+//       }
+//       if (updates.Location) {
+//         center.Location = updates.Location;
+//       }
   
 
   
-      const savedCenter = await center.save({ session });
+//       const savedCenter = await center.save({ session });
   
-      await session.commitTransaction();
-      session.endSession();
+//       await session.commitTransaction();
+//       session.endSession();
   
-      return savedCenter;
-    } catch (error) {
-      await session.abortTransaction();
-      session.endSession();
-      throw error;
-    }
-  }
+//       return savedCenter;
+//     } catch (error) {
+//       await session.abortTransaction();
+//       session.endSession();
+//       throw error;
+//     }
+//   }
 
-function deleteCenter(id) {
-    return Center.findByIdAndDelete(id);
-}
+// function deleteCenter(id) {
+//     return Center.findByIdAndDelete(id);
+// }
 
-module.exports = {
-    Center,
-    createCenter,
-    readCenters,
-    readCenter,
-    updateCenter,
-    deleteCenter,
-};
+// module.exports = {
+//     // Center,
+//     // createCenter,
+//     readCenters,
+//     // readCenter,
+//     // updateCenter,
+//     // deleteCenter,
+// };

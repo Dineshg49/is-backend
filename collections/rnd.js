@@ -27,7 +27,7 @@ const RnDShowcaseSchema = new mongoose.Schema({
 });
 // 
 
-const RnDShowcase = db.model('RnD', RnDShowcaseSchema);
+const RnDShowcase = mongoose.model('RnD', RnDShowcaseSchema);
 
 async function createRnDShowcase(data) {
     try {

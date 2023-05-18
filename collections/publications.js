@@ -33,7 +33,7 @@ const publicationSchema = new mongoose.Schema({
   }
 });
 
-const Publication = db.model('Publication', publicationSchema);
+const Publication = mongoose.model('Publication', publicationSchema);
 
 async function createPublication(Title, Date, Author, Publication_Number, Type, Status, Advisor) {
   const session = await mongoose.startSession();

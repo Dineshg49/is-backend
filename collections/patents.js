@@ -1,144 +1,132 @@
 const mongoose = require('mongoose');
 const db = require('../db');
-const Center = require('./centers')
-const Faculty = require('./faculties')
 
 const patentSchema = new mongoose.Schema({
   Title: {
     type: String,
-    required: true
   },
-  Inventor: {
+  Center_Name: {
     type: String,
-    required: true
   },
   Year: {
     type: Number,
-    required: true
   },
   Patent_Number: {
     type: String,
     required: true
   },
-  Status: {
+  Faculty: [{
     type: String,
-    required: true
-  },
-  Faculty_ID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Faculty'
-  },
-  Center_ID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Center'
-  }
+  }],
+
 });
 
-const Patent = db.model('Patent', patentSchema);
-
-async function createPatent(Title, Inventor, Year, Patent_Number, Status, Faculty, Center) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
-  try {
+module.exports = Patent = mongoose.model("Patent", patentSchema);
 
 
-    const patent = new Patent({
-      Title,
-      Inventor,
-      Year,
-      Patent_Number,
-      Status,
-      Advisor,
-      CenterName,
-    });
+// async function createPatent(Title, Inventor, Year, Patent_Number, Status, Faculty, Center) {
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
 
-    const savedPatent = await patent.save({ session });
+//   try {
 
-    await session.commitTransaction();
-    session.endSession();
 
-    return savedPatent;
-  } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
-    throw error;
-  }
-}
+//     const patent = new Patent({
+//       Title,
+//       Inventor,
+//       Year,
+//       Patent_Number,
+//       Status,
+//       Advisor,
+//       CenterName,
+//     });
 
-async function readPatents() {
-  write
-  try {
-    const patents = await Patent.find().populate('Faculty_ID').populate('Center_ID');
-    return patents;
-  } catch (error) {
-    throw error;
-  }
-}
+//     const savedPatent = await patent.save({ session });
 
-async function readPatent(id) {
-  try {
-    const patent = await Patent.findById(id).populate('Faculty_ID').populate('Center_ID');
-    return patent;
-  } catch (error) {
-    throw error;
-  }
-}
+//     await session.commitTransaction();
+//     session.endSession();
 
-async function updatePatent(id, updates) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+//     return savedPatent;
+//   } catch (error) {
+//     await session.abortTransaction();
+//     session.endSession();
+//     throw error;
+//   }
+// }
 
-  try {
-    const patent = await Patent.findById(id).populate('Faculty_ID').populate('Center_ID').session(session);
-    if (!patent) {
-      throw new Error('patent not found');
-    }
+// async function readPatents() {
+//   write
+//   try {
+//     const patents = await Patent.find().populate('Faculty_ID').populate('Center_ID');
+//     return patents;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
-    if (updates.Title) {
-      patent.Title = updates.Title;
-    }
-    if (updates.Inventor) {
-      patent.Inventor = updates.Inventor;
-    }
-    if (updates.Patent_Number) {
-      patent.Patent_Number = updates.Patent_Number;
-    }
-    if (updates.Status) {
-      patent.Status = updates.Status;
-    }
-    if (updates.Faculty_ID) {
-      patent.Faculty_ID = updates.Faculty_ID;
-    }
-    if (updates.Center_ID) {
-      patent.Center_ID = updates.Center_ID;
-    }
-    if (updates.Year) {
-      patent.Year = updates.Year;
-    }
+// async function readPatent(id) {
+//   try {
+//     const patent = await Patent.findById(id).populate('Faculty_ID').populate('Center_ID');
+//     return patent;
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
-    const savedPatent = await patent.save({ session });
+// async function updatePatent(id, updates) {
+//   const session = await mongoose.startSession();
+//   session.startTransaction();
 
-    await session.commitTransaction();
-    session.endSession();
+//   try {
+//     const patent = await Patent.findById(id).populate('Faculty_ID').populate('Center_ID').session(session);
+//     if (!patent) {
+//       throw new Error('patent not found');
+//     }
 
-    return savedPatent;
-  } catch (error) {
-    await session.abortTransaction();
-    session.endSession();
-    throw error;
-  }
-}
+//     if (updates.Title) {
+//       patent.Title = updates.Title;
+//     }
+//     if (updates.Inventor) {
+//       patent.Inventor = updates.Inventor;
+//     }
+//     if (updates.Patent_Number) {
+//       patent.Patent_Number = updates.Patent_Number;
+//     }
+//     if (updates.Status) {
+//       patent.Status = updates.Status;
+//     }
+//     if (updates.Faculty_ID) {
+//       patent.Faculty_ID = updates.Faculty_ID;
+//     }
+//     if (updates.Center_ID) {
+//       patent.Center_ID = updates.Center_ID;
+//     }
+//     if (updates.Year) {
+//       patent.Year = updates.Year;
+//     }
 
-function deletePatent(id) {
-  return Patent.findByIdAndDelete(id);
-}
+//     const savedPatent = await patent.save({ session });
 
-module.exports = {
-  Patent,
-  createPatent,
-  readPatents,
-  readPatent,
-  updatePatent,
-  deletePatent,
-};
+//     await session.commitTransaction();
+//     session.endSession();
+
+//     return savedPatent;
+//   } catch (error) {
+//     await session.abortTransaction();
+//     session.endSession();
+//     throw error;
+//   }
+// }
+
+// function deletePatent(id) {
+//   return Patent.findByIdAndDelete(id);
+// }
+
+// module.exports = {
+//   Patent,
+//   createPatent,
+//   readPatents,
+//   readPatent,
+//   updatePatent,
+//   deletePatent,
+// };
