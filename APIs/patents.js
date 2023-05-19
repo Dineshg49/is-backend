@@ -7,12 +7,31 @@ const Patent = require('../collections/patents')
 router.post('/patent', async (req, res) => {
 
   const newPatent = new Patent({
+    Reference : req.body.Reference,
     Title: req.body.Title,
+    Inventor_List: req.body.Inventor_List,
     Center_Name: req.body.Center_Name,
-    Year: req.body.Year,
     Patent_Number: req.body.Patent_Number,
+    ProvisionalFilingDate: req.body.ProvisionalFilingDate,
+    FullFilingDate: req.body.FullFilingDate,
+    YearofProvisionalFiling: req.body.YearofProvisionalFiling,
+    YearofFullFiling: req.body.YearofFullFiling,
+    Year: req.body.Year,
+    YearofGrant: req.body.YearofGrant,
+    FilledinCountry: req.body.FilledinCountry,
+    PatentStatusComment: req.body.PatentStatusComment,
+    FacultyName: req.body.FacultyName,
+    Funding: req.body.Funding,
+    CollaboratorsEmailId: req.body.CollaboratorsEmailId,
+    NoStudentInventors: req.body.NoStudentInventors,
+    IDFSubmissionDate: req.body.IDFSubmissionDate,
+    IDFSerachReportDate: req.body.IDFSerachReportDate,
+    ApprovalDateforApplication: req.body.ApprovalDateforApplication,
+    FirstDraft: req.body.FirstDraft,
+    ProvisionalCompleteDraftdate: req.body.ProvisionalCompleteDraftdate,
+    TotalCost: req.body.TotalCost,
+    Comments: req.body.Comments,
     Faculty: req.body.Faculty,
-    Status : req.body.Status
   })
   newPatent.save()
     .then(patent => {

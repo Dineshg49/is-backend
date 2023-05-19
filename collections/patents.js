@@ -2,21 +2,80 @@ const mongoose = require('mongoose');
 const db = require('../db');
 
 const patentSchema = new mongoose.Schema({
+  Reference: {
+    type: String,
+  },
   Title: {
+    type: String,
+  },
+  Inventor_List : {
     type: String,
   },
   Center_Name: {
     type: String,
   },
+  Patent_Number: {
+    type: String,
+  },
+  ProvisionalFilingDate: {
+    type: String,
+  },
+  FullFilingDate: {
+    type: String,
+  },
+  YearofProvisionalFiling: {
+    type: Number,
+  },
+  YearofFullFiling: {
+    type: Number,
+  },
+  Year: { // Published Year
+    type: Number,
+  },
+  YearofGrant : {
+    type: Number,
+  },
   Status: {
     type: String,
   },
-  Year: {
+  FilledinCountry: {
+    type: String,
+  },
+  PatentStatusComment: {
+    type: String,
+  },
+  FacultyName : {
+    type : String,
+  },
+  Funding : {
+    type : String,
+  },
+  CollaboratorsEmailId : {
+    type : String,
+  },
+  NoStudentInventors : {
     type: Number,
   },
-  Patent_Number: {
-    type: String,
-    required: true
+  IDFSubmissionDate  : {
+    type : String,
+  },
+  IDFSerachReportDate  : {
+    type : String,
+  },
+  ApprovalDateforApplication  : {
+    type : String,
+  },
+  FirstDraft  : {
+    type : String,
+  },
+  ProvisionalCompleteDraftdate  : {
+    type : String,
+  },
+  TotalCost  : {
+    type : String,
+  },
+  Comments  : {
+    type : String,
   },
   Faculty: [{
     type: String,
